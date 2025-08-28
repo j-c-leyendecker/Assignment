@@ -1,0 +1,13 @@
+#include<iostream>
+using namespace std;
+int main(){
+    int i;
+    int arr[5]={1};
+    cout<<"[";
+    for(i=0;i<5;i++){
+        cout<<arr[i]<<",";
+    }
+    cout<<"]";
+    cout<<endl;
+    return 0;
+}
