@@ -1,0 +1,63 @@
+#include <iostream>
+using namespace std;
+class Stack {
+    char *arr;
+    int top;
+    int capacity;
+public:
+    Stack(int size) {
+        capacity = size;
+        arr = new char[capacity];
+        top = -1;
+    }
+    void push(char c) {
+        if (top == capacity - 1) {
+            cout << "Stack overflow!" << endl;
+        } else {
+           top ++;
+            arr[top] = c;
+        }
+    }
+    char pop() {
+        if (top == -1) {
+            return '\0';  
+        }
+        top--;
+        return arr[top];
+    }
+    bool isEmpty() {
+        return top == -1;
+    }
+};
+bool isBalanced(string exp) {
+    Stack st(exp.length()); 
+    for (int i = 0; i < exp.length(); i++) {
+        char c = exp[i];
+        if (c == '(' || c == '{' || c == '[') {
+            st.push(c);
+        }
+        else if (c == ')' || c == '}' || c == ']') {
+            char temp = st.pop();
+            if ((c == ')' && temp != '(') ||
+                (c == '}' && temp != '{') ||
+                (c == ']' && temp != '[')) {
+                return false;
+            }
+        }
+    }
+    return st.isEmpty();
+}
+
+
+
+int main() {
+    string exp;
+    cout << "Enter expression: ";
+    cin >> exp;
+    if (isBalanced(exp)) {
+        cout << "Expression is Balanced" << endl;
+    } else {
+        cout << "Expression is Not Balanced" << endl;
+    }
+    return 0;
+}
