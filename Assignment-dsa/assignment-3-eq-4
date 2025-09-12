@@ -1,0 +1,65 @@
+#include <iostream>
+using namespace std;
+class Stack {
+private:
+    int* arr;
+    int top;
+    int capacity;
+public:
+    Stack(int size) {
+        capacity = size;
+        arr = new int[capacity];
+        top = -1;
+    }
+    ~Stack() {
+        delete[] arr;
+    }
+    bool isEmpty() {
+        return top == -1;
+    }
+    bool isFull() {
+        return top == capacity - 1;
+    }    
+    void push(int value) {
+        if (!isFull()) {
+            arr[++top] = value;
+        }
+    }  
+    int pop() {
+        if (!isEmpty()) {
+            return arr[top--];
+        }
+        return -1; 
+    }    
+    int peek() {
+        if (!isEmpty()) {
+            return arr[top];
+        }
+        return -1; // Error case
+    }
+};
+int* dailyTemperatures(int* temperatures, int n) {
+    int* answer = new int[n]();
+    Stack stack(n); 
+    
+    for (int i = 0; i < n; i++) {
+        while (!stack.isEmpty() && temperatures[i] > temperatures[stack.peek()]) {
+            int prev_index = stack.pop();
+            answer[prev_index] = i - prev_index;
+        }
+        stack.push(i);
+    }    
+    return answer;
+}
+
+int main() {
+    int temperatures[] = {73, 74, 75, 71, 69, 72};
+    int n = sizeof(temperatures) / sizeof(temperatures[0]); 
+    int* result = dailyTemperatures(temperatures, n);
+    for (int i = 0; i < n; i++) {
+        cout << result[i] << " ";
+    }
+    cout << endl;
+    delete[] result; 
+    return 0;
+}
