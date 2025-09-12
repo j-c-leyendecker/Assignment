@@ -1,0 +1,53 @@
+#include <iostream>
+#include <queue>
+#include <stack>
+using namespace std;
+
+void interleaveQueue(queue<int>& q) {
+    if (q.size() <= 1) return;
+
+int halfSize = q.size() / 2;
+    queue<int> tempQ;
+    stack<int> tempStack;
+    for (int i = 0; i < halfSize; i++) {
+        tempQ.push(q.front());
+        q.pop();
+    }
+while (!q.empty()) {
+        tempStack.push(q.front());
+        q.pop();
+    }
+        while (!tempStack.empty()) {
+        q.push(tempStack.top());
+        tempStack.pop();
+    }
+    while (!tempQ.empty()) {
+        q.push(tempQ.front());
+     tempQ.pop();
+        q.push(q.front());
+        q.pop();
+    }
+}
+void displayQueue(queue<int>& q) {
+    queue<int> temp = q; 
+    while (!temp.empty()) {
+        cout << temp.front() << " ";
+        temp.pop();
+    }
+    cout << endl;
+}
+int main() {
+    queue<int> q;
+    int arr[] = {4, 7, 11, 20, 5, 9};
+    int n = sizeof(arr) / sizeof(arr[0]);
+    for (int i = 0; i < n; i++) {
+        q.push(arr[i]);
+    }
+    cout << "Original Queue: ";
+    displayQueue(q);
+    interleaveQueue(q);
+    cout << "Interleaved Queue: ";
+    displayQueue(q);
+
+    return 0;
+}
