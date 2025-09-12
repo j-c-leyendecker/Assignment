@@ -1,0 +1,53 @@
+#include <iostream>
+using namespace std;
+class Stack {
+    int *arr;
+    int top;
+    int capacity;
+public:
+    Stack(int size) {
+        capacity = size;
+        arr = new int[capacity];
+        top = -1;
+    }
+    void push(int x) {
+        arr[++top] = x;
+    }
+    int pop() {
+        return arr[top--];
+    }
+    int peek() {
+        return arr[top];
+    }
+    bool isEmpty() {
+        return top == -1;
+    }
+};
+void nearestSmaller(int A[], int n) {
+    Stack st(n);
+    for (int i = 0; i < n; i++) {
+        while (!st.isEmpty() && st.peek() >= A[i]) {
+            st.pop();
+        }
+        if (st.isEmpty()) {
+            cout << "-1 ";
+        } else {
+            cout << st.peek() << " ";
+        }
+        st.push(A[i]);
+    }
+    cout << endl;
+}
+int main() {
+    int n;
+    cout << "Enter size of array: ";
+    cin >> n;
+    int A[n];
+    cout << "Enter elements: ";
+    for (int i = 0; i < n; i++) {
+        cin >> A[i];
+    }
+    cout << "Nearest smaller elements: ";
+    nearestSmaller(A, n);
+    return 0;
+}
