@@ -1,0 +1,53 @@
+#include <stdio.h>
+int main() {
+    int n;
+    printf("Enter n: ");
+    scanf("%d", &n);
+    char q[1000][20];
+    int front = 0, rear = 0;
+    int i, j;
+    q[rear][0] = '1';
+    q[rear][1] = '\0';
+    rear++;
+
+    for(i = 1; i <= n; i++) {
+        char s[20];
+        int k = 0;
+        for(j = 0; q[front][j] != '\0'; j++) {
+            s[j] = q[front][j];
+        }
+        s[j] = '\0';
+        front++;
+
+        printf("%s\n", s);
+
+        char s0[20];
+        k = 0;
+        for(j = 0; s[j] != '\0'; j++) {
+            s0[k++] = s[j];
+        }
+        s0[k++] = '0';
+        s0[k] = '\0';
+
+
+
+        char s1[20];
+        k = 0;
+        for(j = 0; s[j] != '\0'; j++) {
+            s1[k++] = s[j];
+        }
+        s1[k++] = '1';
+        s1[k] = '\0';
+
+        for(j = 0; s0[j] != '\0'; j++)
+            q[rear][j] = s0[j];
+        q[rear][j] = '\0';
+        rear++;
+        for(j = 0; s1[j] != '\0'; j++)
+            q[rear][j] = s1[j];
+        q[rear][j] = '\0';
+        rear++;
+    }
+
+    return 0;
+}
