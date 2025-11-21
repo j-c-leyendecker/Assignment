@@ -1,0 +1,36 @@
+#include <stdio.h>
+int main() {
+    int stu[100], sand[100];
+    int q[100];
+    int front = 0, rear = 0;
+    int n, i;
+    printf("Enter number of students: ");
+    scanf("%d", &n);
+    printf("Enter student prefs: ");
+    for(i = 0; i < n; i++) {
+        scanf("%d", &stu[i]);
+        q[rear++] = stu[i];
+    }
+
+    printf("Enter sandwiches: ");
+    for(i = 0; i < n; i++)
+        scanf("%d", &sand[i]);
+
+    int k = 0;
+    int cnt = 0;
+
+    while(front < rear && cnt < n) {
+        if(q[front] == sand[k]) {
+            front++;
+            k++;
+            cnt = 0;
+        } else {
+            int x = q[front++];
+            q[rear++] = x;
+            cnt++;
+        }
+    }
+
+    printf("Unable to eat = %d\n", n - k);
+    return 0;
+}
