@@ -1,0 +1,166 @@
+#include <iostream>
+using namespace std;
+
+struct Node {
+    int data;
+    Node *next;
+};
+
+Node* head = NULL;
+
+void insertBeg(int x) {
+    Node *t = new Node;
+    t->data = x;
+    t->next = head;
+    head = t;
+}
+
+void insertEnd(int x) {
+    Node *t = new Node;
+    t->data = x;
+    t->next = NULL;
+
+    if (head == NULL) {
+        head = t;
+        return;
+    }
+
+    Node *p = head;
+    while (p->next != NULL)
+        p = p->next;
+
+    p->next = t;
+}
+
+void insertAfterValue(int val, int x) {
+    Node *p = head;
+    while (p != NULL && p->data != val)
+        p = p->next;
+
+    if (p == NULL) {
+        cout << "Value not found\n";
+        return;
+    }
+
+    Node *t = new Node;
+    t->data = x;
+    t->next = p->next;
+    p->next = t;
+}
+
+void insertBeforeValue(int val, int x) {
+    if (head == NULL) return;
+
+    if (head->data == val) {
+        insertBeg(x);
+        return;
+    }
+
+    Node *p = head;
+    while (p->next != NULL && p->next->data != val)
+        p = p->next;
+
+    if (p->next == NULL) {
+        cout << "Value not found\n";
+        return;
+    }
+
+    Node *t = new Node;
+    t->data = x;
+    t->next = p->next;
+    p->next = t;
+}
+
+void deleteBeg() {
+    if (head == NULL) return;
+
+    Node *t = head;
+    head = head->next;
+    delete t;
+}
+
+void deleteEnd() {
+    if (head == NULL) return;
+
+    if (head->next == NULL) {
+        delete head;
+        head = NULL;
+        return;
+    }
+
+    Node *p = head;
+    while (p->next->next != NULL)
+        p = p->next;
+
+    Node *t = p->next;
+    p->next = NULL;
+    delete t;
+}
+
+void deleteSpecific(int x) {
+    if (head == NULL) return;
+
+    if (head->data == x) {
+        deleteBeg();
+        return;
+    }
+
+    Node *p = head;
+    while (p->next != NULL && p->next->data != x)
+        p = p->next;
+
+    if (p->next == NULL) {
+        cout << "Node not found\n";
+        return;
+    }
+
+    Node *t = p->next;
+    p->next = t->next;
+    delete t;
+}
+
+void searchNode(int x) {
+    Node *p = head;
+    int pos = 1;
+
+    while (p != NULL) {
+        if (p->data == x) {
+            cout << "Found at position: " << pos << "\n";
+            return;
+        }
+        pos++;
+        p = p->next;
+    }
+    cout << "Not found\n";
+}
+
+void display() {
+    Node *p = head;
+    while (p != NULL) {
+        cout << p->data << " ";
+        p = p->next;
+    }
+    cout << "\n";
+}
+
+int main() {
+    int ch, x, val;
+
+    while (1) {
+        cout << "\n1.Insert Beg\n2.Insert End\n3.Insert Before\n4.Insert After\n5.Del Beg\n6.Del End\n7.Del Specific\n8.Search\n9.Display\n10.Exit\n";
+        cin >> ch;
+
+        switch (ch) {
+            case 1: cin >> x; insertBeg(x); break;
+            case 2: cin >> x; insertEnd(x); break;
+            case 3: cin >> val >> x; insertBeforeValue(val, x); break;
+            case 4: cin >> val >> x; insertAfterValue(val, x); break;
+            case 5: deleteBeg(); break;
+            case 6: deleteEnd(); break;
+            case 7: cin >> x; deleteSpecific(x); break;
+            case 8: cin >> x; searchNode(x); break;
+            case 9: display(); break;
+            case 10: return 0;
+        }
+    }
+}
