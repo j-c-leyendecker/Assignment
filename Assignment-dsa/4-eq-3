@@ -1,0 +1,40 @@
+#include <stdio.h>
+int main() {
+    int q[100], st[100];
+    int front = 0, rear = 0;
+    int top = -1;
+    int n, i;
+    printf("Enter size: ");
+    scanf("%d", &n);
+    printf("Enter queue: ");
+    for(i = 0; i < n; i++) {
+        scanf("%d", &q[rear]);
+        rear++;
+    }
+    int need = 1;
+    int ok = 1;
+    while(front < rear) {
+        if(q[front] == need) {
+            front++;
+            need++;
+        } else {
+            st[++top] = q[front++];
+        }
+    }
+    while(top >= 0) {
+        if(st[top] == need) {
+            top--;
+            need++;
+        } else {
+            ok = 0;
+            break;
+        }
+    }
+
+    if(ok)
+        printf("Yes\n");
+    else
+        printf("No\n");
+
+    return 0;
+}
