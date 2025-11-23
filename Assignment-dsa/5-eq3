@@ -1,0 +1,54 @@
+#include <iostream>
+using namespace std;
+
+int heapArr[100];
+int heapSize = 0;
+
+void heapInsert(int x) {
+    heapArr[++heapSize] = x;
+    int i = heapSize;
+
+    while (i > 1 && heapArr[i] < heapArr[i/2]) {
+        int t = heapArr[i];
+        heapArr[i] = heapArr[i/2];
+        heapArr[i/2] = t;
+        i = i/2;
+    }
+}
+
+int heapRemove() {
+    int root = heapArr[1];
+    heapArr[1] = heapArr[heapSize--];
+
+    int i = 1;
+    while (true) {
+        int left = 2*i;
+        int right = 2*i + 1;
+        int smallest = i;
+
+        if (left <= heapSize && heapArr[left] < heapArr[smallest])
+            smallest = left;
+        if (right <= heapSize && heapArr[right] < heapArr[smallest])
+            smallest = right;
+
+        if (smallest == i) break;
+
+        int t = heapArr[i];
+        heapArr[i] = heapArr[smallest];
+        heapArr[smallest] = t;
+
+        i = smallest;
+    }
+
+    return root;
+}
+
+int main() {
+    heapInsert(10);
+    heapInsert(5);
+    heapInsert(20);
+
+    cout << heapRemove() << endl; // 5
+    cout << heapRemove() << endl; // 10
+    cout << heapRemove() << endl; // 20
+}
