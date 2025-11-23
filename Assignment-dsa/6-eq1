@@ -1,0 +1,115 @@
+#include <iostream>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* next;
+    Node* prev;
+};
+
+Node* head_dll = NULL;
+Node* head_cll = NULL;
+
+Node* create(int val) {
+    Node* n = new Node;
+    n->data = val;
+    n->next = n->prev = NULL;
+    return n;
+}
+
+void insert_dll() {
+    int val, ch, key;
+    cout << "Value: "; cin >> val;
+    cout << "1.First 2.Last 3.After 4.Before: "; cin >> ch;
+    Node* newNode = create(val);
+    if (head_dll == NULL) { head_dll = newNode; return; }
+    if (ch == 1) {
+        newNode->next = head_dll;
+        head_dll->prev = newNode;
+        head_dll = newNode;
+    } else if (ch == 2) {
+        Node* t = head_dll;
+        while (t->next) t = t->next;
+        t->next = newNode;
+        newNode->prev = t;
+    } else {
+        cout << "Node value: "; cin >> key;
+        Node* t = head_dll;
+        while (t && t->data != key) t = t->next;
+        if (!t) { cout << "Not found\n"; return; }
+        if (ch == 3) {
+            newNode->next = t->next;
+            newNode->prev = t;
+            if (t->next) t->next->prev = newNode;
+            t->next = newNode;
+        } else {
+            newNode->next = t;
+            newNode->prev = t->prev;
+            if (t->prev) t->prev->next = newNode;
+            t->prev = newNode;
+            if (t == head_dll) head_dll = newNode;
+        }
+    }
+}
+
+void delete_node() {
+    if (!head_dll) { cout << "Empty\n"; return; }
+    int val; cout << "Delete value: "; cin >> val;
+    Node* t = head_dll;
+    while (t && t->data != val) t = t->next;
+    if (!t) { cout << "Not found\n"; return; }
+    if (t->prev) t->prev->next = t->next;
+    if (t->next) t->next->prev = t->prev;
+    if (t == head_dll) head_dll = t->next;
+    delete t;
+    cout << "Deleted\n";
+}
+
+void search_node() {
+    if (!head_dll) { cout << "Empty\n"; return; }
+    int val; cout << "Search: "; cin >> val;
+    Node* t = head_dll;
+    while (t) {
+        if (t->data == val) { cout << "Found\n"; return; }
+        t = t->next;
+    }
+    cout << "Not found\n";
+}
+
+void display_dll() {
+    Node* t = head_dll;
+    while (t) { cout << t->data << " "; t = t->next; }
+    cout << endl;
+}
+
+void display_cll() {
+    if (!head_cll) { cout << "Empty\n"; return; }
+    Node* t = head_cll;
+    do { cout << t->data << " "; t = t->next; } while (t != head_cll);
+    cout << head_cll->data << endl;
+}
+
+int main() {
+    int ch;
+    while (1) {
+        cout << "\n1.Insert DLL 2.Insert CLL 3.Delete 4.Search 5.Display DLL 6.Display CLL 0.Exit\nChoice: ";
+        cin >> ch;
+        if (ch == 1) insert_dll();
+        else if (ch == 2) {
+            int v; cout << "Value: "; cin >> v;
+            Node* n = create(v);
+            if (!head_cll) { head_cll = n; n->next = n; }
+            else {
+                Node* t = head_cll;
+                while (t->next != head_cll) t = t->next;
+                t->next = n; n->next = head_cll;
+            }
+        }
+        else if (ch == 3) delete_node();
+        else if (ch == 4) search_node();
+        else if (ch == 5) display_dll();
+        else if (ch == 6) display_cll();
+        else if (ch == 0) break;
+    }
+    return 0;
+}
