@@ -1,0 +1,28 @@
+#include <iostream>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* next;
+} *head = NULL;
+
+int main() {
+    int n, val;
+    cout << "No. of nodes: "; cin >> n;
+    Node* t = NULL;
+    for (int i = 0; i < n; i++) {
+        cin >> val;
+        Node* newNode = new Node{val, NULL};
+        if (!head) head = t = newNode;
+        else t = t->next = newNode;
+    }
+    if (head) t->next = head;
+    
+    t = head;
+    do {
+        cout << t->data << " ";
+        t = t->next;
+    } while (t != head);
+    cout << head->data << endl;
+    return 0;
+}
