@@ -1,0 +1,35 @@
+#include <iostream>
+#include <unordered_set>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* next;
+};
+
+int main() {
+    int n;
+    cin >> n;
+    Node* nodes[1005];
+    for(int i = 0; i < n; i++) {
+        nodes[i] = new Node;
+        cin >> nodes[i]->data;
+        nodes[i]->next = (i < n-1) ? nodes[i+1] : NULL;
+    }
+    int cycle;
+    cin >> cycle;
+    if(cycle >= 0 && cycle < n) nodes[n-1]->next = nodes[cycle];
+
+    unordered_set<Node*> s;
+    Node* t = nodes[0];
+    while(t) {
+        if(s.count(t)) {
+            cout << "true" << endl;
+            return 0;
+        }
+        s.insert(t);
+        t = t->next;
+    }
+    cout << "false" << endl;
+    return 0;
+}
