@@ -1,0 +1,29 @@
+#include <iostream>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* next;
+    Node* prev;
+} *head_dll = NULL, *head_cll = NULL;
+
+int size_dll() {
+    int cnt = 0;
+    Node* t = head_dll;
+    while (t) { cnt++; t = t->next; }
+    return cnt;
+}
+
+int size_cll() {
+    if (!head_cll) return 0;
+    int cnt = 0;
+    Node* t = head_cll;
+    do { cnt++; t = t->next; } while (t != head_cll);
+    return cnt;
+}
+
+int main() {
+    cout << "DLL size: " << size_dll() << endl;
+    cout << "CLL size: " << size_cll() << endl;
+    return 0;
+}
